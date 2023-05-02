@@ -13,18 +13,18 @@ class RemoteLoadCharacters implements LoadCharacters{
   Future<List<CharacterEntity>> load() async {
     try{
       final response = await httpClient.request(url: url, method: "get");
-      return response
-          .map<CharacterEntity>((json) => RemoteCharacterModel.fromJson(json).toEntity())
+      final data = response['data']['results'];
+      print("response => $data");
+
+      return data
+          .map<CharacterEntity>((json) {
+            return RemoteCharacterModel.fromJson(json).toEntity();
+          })
           .toList();
 
-    }on HttpError{
+    }on HttpError catch(he){
       throw Exception("Deu http ruim");
     }
-    catch(e){
-      throw Exception("Deu ruim");
-    }
-
-    return [];
   }
 
 }
