@@ -10,12 +10,14 @@ class CharacterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size _size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Mottu"),
       ),
       body: Builder(
         builder: (BuildContext buildContext) {
+          presenter.loadData();
           return SingleChildScrollView(
             child: Column(
               children: [
@@ -26,15 +28,29 @@ class CharacterPage extends StatelessWidget {
                       return const Text("Algo deu errado");
                     }
                     if(snapshot.hasData) {
-                      return ListView.builder(
-                      itemCount: snapshot.data?.length??0,
-                      itemBuilder: (BuildContext context, int indice) {
-                        return const ListTile(
-                          leading: Text("Personagem"),
-                          trailing: Icon(Icons.person),
-                        );
-                      },
-                    );
+                      return SizedBox(
+                        height: _size.height,
+                        width: double.infinity,
+                        child: ListView.builder(
+                        itemCount: snapshot.data?.length??0,
+                        itemBuilder: (BuildContext context, int indice) {
+                          final CharacterEntity c = snapshot.data![indice];
+                          return ListTile(
+                            leading: Text(c.name),
+                            trailing: CircleAvatar(
+                              child: ClipOval(
+                                child: Image.network(
+                                  c.image,
+                                  width: 100,
+                                  height: 100,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                    ),
+                      );
                     }
 
                     return const CircularProgressIndicator();
