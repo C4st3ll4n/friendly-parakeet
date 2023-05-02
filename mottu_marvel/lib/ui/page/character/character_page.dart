@@ -39,11 +39,14 @@ class CharacterPage extends StatelessWidget {
                             leading: Text(c.name),
                             trailing: CircleAvatar(
                               child: ClipOval(
-                                child: Image.network(
-                                  c.image,
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.cover,
+                                child: Hero(
+                                  tag: c.id,
+                                  child: Image.network(
+                                    c.image,
+                                    width: 100,
+                                    height: 100,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),
