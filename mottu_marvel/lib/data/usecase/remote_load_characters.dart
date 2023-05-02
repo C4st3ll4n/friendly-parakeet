@@ -17,7 +17,10 @@ class RemoteLoadCharacters implements LoadCharacters{
           .map<CharacterEntity>((json) => RemoteCharacterModel.fromJson(json).toEntity())
           .toList();
 
-    }catch(e){
+    }on HttpError{
+      throw Exception("Deu http ruim");
+    }
+    catch(e){
       throw Exception("Deu ruim");
     }
 
